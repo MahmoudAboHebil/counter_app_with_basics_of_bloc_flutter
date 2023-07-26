@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'cubit/counter_cubit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,13 +12,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return BlocProvider<CounterCubit>(
+      create: (context) => CounterCubit(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -31,14 +36,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,26 +44,58 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             const Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            BlocBuilder<CounterCubit, CounterState>(
+              bloc: BlocProvider.of<CounterCubit>(context),
+              builder: (context, state) {
+                if (state.counterValue < 0) {
+                  return Text(
+                    'NEGATIVE  ' + state.counterValue.toString(),
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  );
+                } else if (state.counterValue % 2 == 0) {
+                  return Text(
+                    'EVEN  ' + state.counterValue.toString(),
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  );
+                } else {
+                  return Text(
+                    'POSTIVE  ' + state.counterValue.toString(),
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  );
+                }
+              },
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FloatingActionButton(
+                  onPressed: () {
+                    BlocProvider.of<CounterCubit>(context).decrement();
+                  },
+                  tooltip: 'Decrement',
+                  child: const Icon(Icons.remove),
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    BlocProvider.of<CounterCubit>(context).increment();
+                  },
+                  tooltip: 'Increment',
+                  child: const Icon(Icons.add),
+                ),
+              ],
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
