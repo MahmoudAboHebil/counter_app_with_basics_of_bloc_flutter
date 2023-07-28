@@ -1,20 +1,19 @@
-import 'package:counter_app_with_basics_of_bloc/persentation/screens/second_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../business_logic/cubit/counter_cubit.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({required this.title, required this.colour});
+class SecondScreen extends StatefulWidget {
+  const SecondScreen({required this.title, required this.colour});
 
   final String title;
   final Color colour;
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SecondScreen> createState() => _SecondScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _SecondScreenState extends State<SecondScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatingActionButton(
-                  heroTag: "btn11",
+                  heroTag: "btn1",
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).decrement();
                   },
@@ -87,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 30,
                 ),
                 FloatingActionButton(
-                  heroTag: "btn22",
+                  heroTag: "btn2",
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).increment();
                   },
@@ -103,20 +102,9 @@ class _HomeScreenState extends State<HomeScreen> {
             MaterialButton(
               color: widget.colour,
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) {
-                      return BlocProvider.value(
-                        value: BlocProvider.of<CounterCubit>(context),
-                        child: SecondScreen(
-                            title: 'Second Screen', colour: Colors.redAccent),
-                      );
-                    },
-                  ),
-                );
+                Navigator.pop(context);
               },
-              child: Text('Go  to Second Screen'),
+              child: Text('Go Back to Home Screen'),
             ),
           ],
         ),
