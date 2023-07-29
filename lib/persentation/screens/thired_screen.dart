@@ -1,20 +1,19 @@
-import 'package:counter_app_with_basics_of_bloc/persentation/screens/second_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../business_logic/cubit/counter_cubit.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({required this.title, required this.colour});
+class ThiredScreen extends StatefulWidget {
+  const ThiredScreen({required this.title, required this.colour});
 
   final String title;
   final Color colour;
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<ThiredScreen> createState() => _ThiredScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ThiredScreenState extends State<ThiredScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,12 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             const Text(
               'You have pushed the button this many times:',
             ),
-            BlocConsumer<CounterCubit, CounterState>(
+            BlocBuilder<CounterCubit, CounterState>(
               bloc: BlocProvider.of<CounterCubit>(context),
               builder: (context, state) {
                 if (state.counterValue < 0) {
@@ -49,33 +48,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }
               },
-              listener: (context, state) {
-                if (state.wasIncremented!) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Incremented!'),
-                      duration: Duration(
-                        milliseconds: 300,
-                      ),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Decremented!'),
-                      duration: Duration(
-                        milliseconds: 300,
-                      ),
-                    ),
-                  );
-                }
-              },
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatingActionButton(
-                  heroTag: "btn11",
+                  heroTag: "btn1",
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).decrement();
                   },
@@ -87,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 30,
                 ),
                 FloatingActionButton(
-                  heroTag: "btn22",
+                  heroTag: "btn2",
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).increment();
                   },
@@ -96,23 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: const Icon(Icons.add),
                 ),
               ],
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            MaterialButton(
-              color: Colors.redAccent,
-              onPressed: () {
-                Navigator.pushNamed(context, '/second');
-              },
-              child: Text('Go  to Second Screen'),
-            ),
-            MaterialButton(
-              color: Colors.green,
-              onPressed: () {
-                Navigator.pushNamed(context, '/third');
-              },
-              child: Text('Go  to Third Screen'),
             ),
           ],
         ),

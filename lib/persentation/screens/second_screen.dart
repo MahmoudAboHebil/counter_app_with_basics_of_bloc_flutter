@@ -28,7 +28,7 @@ class _SecondScreenState extends State<SecondScreen> {
             const Text(
               'You have pushed the button this many times:',
             ),
-            BlocConsumer<CounterCubit, CounterState>(
+            BlocBuilder<CounterCubit, CounterState>(
               bloc: BlocProvider.of<CounterCubit>(context),
               builder: (context, state) {
                 if (state.counterValue < 0) {
@@ -48,27 +48,27 @@ class _SecondScreenState extends State<SecondScreen> {
                   );
                 }
               },
-              listener: (context, state) {
-                if (state.wasIncremented!) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Incremented!'),
-                      duration: Duration(
-                        milliseconds: 300,
-                      ),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Decremented!'),
-                      duration: Duration(
-                        milliseconds: 300,
-                      ),
-                    ),
-                  );
-                }
-              },
+              // listener: (context, state) {
+              //   if (state.wasIncremented!) {
+              //     ScaffoldMessenger.of(context).showSnackBar(
+              //       SnackBar(
+              //         content: Text('Incremented!'),
+              //         duration: Duration(
+              //           milliseconds: 300,
+              //         ),
+              //       ),
+              //     );
+              //   } else {
+              //     ScaffoldMessenger.of(context).showSnackBar(
+              //       SnackBar(
+              //         content: Text('Decremented!'),
+              //         duration: Duration(
+              //           milliseconds: 300,
+              //         ),
+              //       ),
+              //     );
+              //   }
+              // },
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -95,16 +95,6 @@ class _SecondScreenState extends State<SecondScreen> {
                   child: const Icon(Icons.add),
                 ),
               ],
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            MaterialButton(
-              color: widget.colour,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Go Back to Home Screen'),
             ),
           ],
         ),
