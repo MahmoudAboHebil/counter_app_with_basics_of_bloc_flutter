@@ -8,7 +8,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class InternetCubit extends Cubit<InternetState> {
   final Connectivity connectivity;
   StreamSubscription? connectivityStreamSubscription;
-  InternetCubit({required this.connectivity}) : super(InternetLoading());
+  InternetCubit({required this.connectivity}) : super(InternetLoading()) {
+    connectivityStreamSubscription =
+        connectivity.onConnectivityChanged.listen((connectivityResult) {
+      if (connectivityResult == ConnectivityResult.none) {
+        emitInternetDisconnected();
+      } else {
+        if (connectivityResult == ConnectivityResult.mobile) {
+          emitInternetConnected(ConnectionType.mobile);
+        } else if (connectivityResult == ConnectivityResult.wifi) {
+          emitInternetConnected(ConnectionType.wifi);
+        }
+      }
+    });
+  }
 
   void emitInternetConnected(ConnectionType connectionType) =>
       emit(InternetConnected(connectionType: connectionType));
