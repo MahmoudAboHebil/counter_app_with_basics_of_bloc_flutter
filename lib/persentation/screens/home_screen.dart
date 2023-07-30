@@ -1,3 +1,6 @@
+import 'package:counter_app_with_basics_of_bloc/business_logic/cubit/internet_cubit.dart';
+import 'package:counter_app_with_basics_of_bloc/business_logic/cubit/internet_state.dart';
+import 'package:counter_app_with_basics_of_bloc/constants/enums.dart';
 import 'package:counter_app_with_basics_of_bloc/persentation/screens/second_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +29,18 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
+            BlocBuilder<InternetCubit, InternetState>(
+              builder: (context, state) {
+                if (state is InternetConnected &&
+                    state.connectionType == ConnectionType.wifi) {
+                  return Text('Connected with ');
+                } else if (state is InternetDisconnected) {
+                  return Text(' NO Connection');
+                } else {
+                  return Text('Loading...');
+                }
+              },
+            ),
             const Text(
               'You have pushed the button this many times:',
             ),

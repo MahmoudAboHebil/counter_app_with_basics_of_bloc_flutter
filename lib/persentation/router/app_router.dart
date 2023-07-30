@@ -7,8 +7,6 @@ import '../screens/second_screen.dart';
 import '../screens/thired_screen.dart';
 
 class AppRouter {
-  final CounterCubit _counterCubit = CounterCubit();
-
   Route? onGeneratorRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case '/':
